@@ -16,7 +16,7 @@ jobs:
     - name: Build Image
       working-directory: project
       run: |
-        podman build -t podman.azurecr.io/backend:${{ github.sha }} -f Containerfile .
+        podman build -t podman.azurecr.io/podman:${{ github.run_id }} -f Containerfile .
 
     - name: Docker login and push 
       run: |
