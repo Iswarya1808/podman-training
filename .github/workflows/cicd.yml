@@ -12,10 +12,11 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
+      
     - name: Build Image
+      working-directory: project
       run: |
-        podman build -t podman.azurecr.io/backend:${{ github.sha }} -f project/Containerfile .
+        podman build -t podman.azurecr.io/backend:${{ github.sha }} -f Containerfile .
 
     - name: Docker login and push 
       run: |
