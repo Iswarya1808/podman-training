@@ -1,0 +1,30 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Build Image
+      run: |
+        podman build -t podman.azurecr.io/backend:${{ github.sha }} .
+
+    - name: Docker login and push 
+      run: |
+        podman login podman.azurecr.io -u podman -p ${{ secrets.ACR_PASSWD }}
+        podman push podman.azurecr.io/podman:${{ github.run_id }}
+
+    # - name: Deploy Container App
+    #   run: |
+    #     az containerapp update \
+    #       --name ${{ secrets.CONTAINERAPP_NAME }} \
+    #       --resource-group ${{ secrets.RESOURCE_GROUP }} \
+    #       --image ${{ secrets.ACR_NAME }}.azurecr.io/backend:${{ github.sha }}
