@@ -22,7 +22,11 @@ jobs:
       run: |
         podman login podman.azurecr.io -u podman -p ${{ secrets.ACR_PASSWD }}
         podman push podman.azurecr.io/podman:${{ github.run_id }}
-
+        
+    - name: Login to Azure
+      run: |
+       az login --service-principal -u ${{ secrets.clientid }} -p ${{ secrets.clientsecret }} --tenant ${{ secrets.tenantid }}
+       
     - name: Deploy Container App
       run: |
         az containerapp update \
