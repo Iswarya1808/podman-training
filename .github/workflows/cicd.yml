@@ -26,6 +26,7 @@ jobs:
     - name: Login to Azure
       run: |
        az login --service-principal -u ${{ secrets.clientid }} -p ${{ secrets.clientsecret }} --tenant ${{ secrets.tenantid }}
+       az account set --subscription "8da5ea31-eccb-4d99-8a1a-437ea5504220"
        
     - name: Deploy Container App
       run: |
